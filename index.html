@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Blackbrush</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body>
+    <section class="hero" aria-label="Landing">
+      <!-- Lite video -->
+      <video id="video-lite" autoplay muted playsinline preload="auto">
+        <source src="video/loop-lite.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Full video -->
+      <video id="video-full" muted playsinline preload="auto" loop>
+        <source src="video/loop-full.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Text overlay (always present, shown via class) -->
+      <a href="main.html" class="enter" id="enterPrompt">
+        <span>Enter</span>
+      </a>
+    </section>
+
+    <script src="js/video-switch.js"></script>
+  </body>
+</html>

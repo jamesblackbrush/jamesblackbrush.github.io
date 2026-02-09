@@ -1,0 +1,79 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #111111;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  background: #111111;
+}
+
+.hero video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Full video fades in when activated */
+#video-full {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#video-full.visible {
+  opacity: 1;
+}
+
+/* Enter prompt */
+.enter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  text-decoration: none;
+}
+
+.enter.show {
+  opacity: 1;
+}
+
+.enter span {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+/* Optional but recommended */
+.enter:hover span {
+  letter-spacing: 0.16em;
+  transition: letter-spacing 0.3s ease;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #video-full {
+    transition: none;
+  }
+  .enter {
+    transition: none;
+  }
+}
