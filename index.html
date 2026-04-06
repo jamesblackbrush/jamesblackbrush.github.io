@@ -1,30 +1,251 @@
 <!doctype html>
-<html lang="en">
+<!--
+	Big Picture by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
   <head>
+    <title>BlackBrush</title>
     <meta charset="utf-8" />
-    <title>Blackbrush</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="css/main.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript
+      ><link rel="stylesheet" href="assets/css/noscript.css"
+    /></noscript>
   </head>
+  <body class="is-preload">
+    <!-- Header removed -->
 
-  <body>
-    <section class="hero" aria-label="Landing">
-      <!-- Lite video -->
-      <video id="video-lite" autoplay muted playsinline preload="auto">
-        <source src="video/loop-lite.mp4" type="video/mp4" />
-      </video>
-
-      <!-- Full video -->
-      <video id="video-full" muted playsinline preload="auto" loop>
-        <source src="video/loop-full.mp4" type="video/mp4" />
-      </video>
-
-      <!-- Text overlay (always present, shown via class) -->
-      <a href="main.html" class="enter" id="enterPrompt">
-        <span>Enter</span>
-      </a>
+    <!-- Intro -->
+    <section id="intro" class="main style1 dark fullscreen">
+      <div class="intro-video">
+        <video id="intro-video" muted loop playsinline preload="metadata">
+          <source src="video/loop-full.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="content">
+        <header>
+          <h2>Hello.</h2>
+        </header>
+        <p>Welcome to my playground.</p>
+        <footer>
+          <a href="#work" class="button style2 down">More</a>
+        </footer>
+      </div>
     </section>
 
-    <script src="js/video-switch.js"></script>
+    <!-- #one and #two removed per request -->
+
+    <!-- Work -->
+    <section id="work" class="main style3 primary">
+      <div class="content">
+        <div class="gallery" id="gallery-main">
+          <!-- PANEL 1 - Click to open Gallery One -->
+          <!-- Do not edit the lightbox image list here; add lightbox images only in the hidden gallery section below -->
+          <article class="from-left">
+            <a href="#" class="image fit gallery-trigger" data-gallery="1">
+              <img src="images/thumbs/01.jpg" alt="" />
+              <div class="panel-text">One</div>
+            </a>
+          </article>
+
+          <!-- PANEL 2 - Click to open Gallery Two -->
+          <article class="from-right">
+            <a href="#" class="image fit gallery-trigger" data-gallery="2">
+              <img src="images/thumbs/02.jpg" alt="" />
+              <div class="panel-text">Two</div>
+            </a>
+          </article>
+
+          <!-- PANEL 3 - Click to open Gallery Three -->
+          <article class="from-left">
+            <a href="#" class="image fit gallery-trigger" data-gallery="3">
+              <img src="images/thumbs/03.jpg" alt="" />
+              <div class="panel-text">Three</div>
+            </a>
+          </article>
+
+          <!-- PANEL 4 - Click to open Gallery Four -->
+          <article class="from-right">
+            <a href="#" class="image fit gallery-trigger" data-gallery="4">
+              <img src="images/thumbs/04.jpg" alt="" />
+              <div class="panel-text">Four</div>
+            </a>
+          </article>
+        </div>
+
+        <!-- OFF-SCREEN GALLERIES - Only edit this section to add or change lightbox images -->
+        <!-- These hidden containers are the single source for each panel's lightbox content. -->
+        <!-- For each gallery, edit the link target and visible text below using the attributes: -->
+        <!--   data-link-href="<filename>" -->
+        <!--   data-link-text="<label>" -->
+        <!-- Example: data-link-href="video.html" data-link-text="Go to video.html" -->
+        <div
+          class="lightbox-gallery"
+          id="gallery-1"
+          data-link-href="video.html"
+          data-link-text="See more of video"
+          style="position: absolute; left: -9999px; top: -9999px"
+        >
+          <article>
+            <a href="images/fulls/01.jpg">
+              <img src="images/fulls/01.jpg" alt="" />
+            </a>
+          </article>
+          <article>
+            <a href="images/fulls/happy.jpg">
+              <img src="images/fulls/happy.jpg" alt="" />
+            </a>
+          </article>
+          <!-- Add more images here for Gallery 1 -->
+        </div>
+
+        <div
+          class="lightbox-gallery"
+          id="gallery-2"
+          data-link-href="consistent.html"
+          data-link-text="Go to consistent.html"
+          style="position: absolute; left: -9999px; top: -9999px"
+        >
+          <article>
+            <a href="images/fulls/02.jpg">
+              <img src="images/fulls/02.jpg" alt="" />
+            </a>
+          </article>
+          <!-- Add more images here for Gallery 2 -->
+        </div>
+
+        <div
+          class="lightbox-gallery"
+          id="gallery-3"
+          data-link-href="3D.html"
+          data-link-text="Go to 3D.html"
+          style="position: absolute; left: -9999px; top: -9999px"
+        >
+          <article>
+            <a href="images/fulls/03.jpg">
+              <img src="images/fulls/03.jpg" alt="" />
+            </a>
+          </article>
+          <!-- Add more images here for Gallery 3 -->
+        </div>
+
+        <div
+          class="lightbox-gallery"
+          id="gallery-4"
+          data-link-href="other.html"
+          data-link-text="Go to other.html"
+          style="position: absolute; left: -9999px; top: -9999px"
+        >
+          <article>
+            <a href="images/fulls/04.jpg">
+              <img src="images/fulls/04.jpg" alt="" />
+            </a>
+          </article>
+          <article>
+            <a href="images/fulls/05.jpg">
+              <img src="images/fulls/05.jpg" alt="" />
+            </a>
+          </article>
+          <article>
+            <a href="images/fulls/smiley.png">
+              <img src="images/fulls/smiley.png" alt="" />
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="main style3 secondary">
+      <div class="content">
+        <header>
+          <h2>Say Hello.</h2>
+          <p>
+            Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore
+            condimentum.
+          </p>
+        </header>
+        <div class="box">
+          <form method="post" action="#">
+            <div class="fields">
+              <div class="field half">
+                <input type="text" name="name" placeholder="Name" />
+              </div>
+              <div class="field half">
+                <input type="email" name="email" placeholder="Email" />
+              </div>
+              <div class="field">
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  rows="6"
+                ></textarea>
+              </div>
+            </div>
+            <ul class="actions special">
+              <li><input type="submit" value="Send Message" /></li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <!-- Icons -->
+      <ul class="icons">
+        <li>
+          <a href="#" class="icon brands fa-twitter"
+            ><span class="label">Twitter</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-facebook-f"
+            ><span class="label">Facebook</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-instagram"
+            ><span class="label">Instagram</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-linkedin-in"
+            ><span class="label">LinkedIn</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-dribbble"
+            ><span class="label">Dribbble</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-pinterest"
+            ><span class="label">Pinterest</span></a
+          >
+        </li>
+      </ul>
+
+      <!-- Menu -->
+      <ul class="menu">
+        <li>&copy; Untitled</li>
+        <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+      </ul>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
   </body>
 </html>
