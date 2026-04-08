@@ -1,117 +1,221 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 60px 0 40px;
-        background: linear-gradient(to bottom, #08023b 0%, #42027e 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video</title>
+
+  <!-- Modern font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(to bottom, #08023b 0%, #42027e 100%);
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .page-body {
+      width: 100%;
+      max-width: 1200px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 120px;
+
+      padding: 80px 0;
+    }
+
+    /* ===============================
+       VIDEO GROUP (ONE BLOCK)
+    =============================== */
+
+    .video-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Title above video */
+.video-title {
+  width: 66vw;
+  max-width: 1200px;
+
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3vw, 2.4rem); /* larger, responsive */
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* subtle depth */
+  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+
+  margin-bottom: 10px;
+}
+
+    /* Video container */
+    .video-placeholder {
+      width: 66vw;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-placeholder iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* Description */
+    .description-box {
+      width: 66vw;
+      max-width: 1200px;
+
+      padding: 18px 20px;
+      border: 1px solid rgba(173, 216, 230, 0.9);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e8f2ff;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Arrow */
+    .down-arrow {
+      width: 40px;
+      height: 40px;
+      border-right: 3px solid #a8c8ff;
+      border-bottom: 3px solid #a8c8ff;
+      transform: rotate(45deg);
+      cursor: pointer;
+      margin-top: 10px;
+
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.6;
+    }
+
+    .down-arrow:hover {
+      transform: rotate(45deg) translateY(4px);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .video-placeholder,
+      .description-box,
+      .video-title {
+        width: 90vw;
       }
 
       .page-body {
-        width: 100%;
-        max-width: 1200px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 60px;
+        gap: 80px;
+        padding: 60px 0;
       }
+    }
+  </style>
+</head>
 
-      .video-group {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
+<body>
 
-      .video-placeholder {
-        width: 66vw;
-        max-width: 1200px;
-        aspect-ratio: 16 / 9;
-      }
+  <div class="page-body">
 
-      .video-placeholder iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        display: block;
-      }
+    <!-- =========================================
+         VIDEO BLOCK START
+         Copy everything between START and END
+         to add a new video section
+    ========================================== -->
 
-      .description-box {
-        width: 66vw;
-        max-width: 1200px;
-        padding: 18px 20px;
-        border: 1px solid rgba(173, 216, 230, 0.9);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.06);
-        color: #e8f2ff;
-        line-height: 1.6;
-      }
+    <div class="video-group">
 
-      .down-arrow {
-        width: 32px;
-        height: 32px;
-        border-right: 3px solid #a8c8ff;
-        border-bottom: 3px solid #a8c8ff;
-        transform: rotate(45deg);
-        margin-top: 10px;
-      }
-
-      @media (max-width: 768px) {
-        body {
-          padding: 40px 0 30px;
-        }
-
-        .video-placeholder,
-        .description-box {
-          width: 90vw;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page-body">
-      <!-- Video block 1 -->
-      <div class="video-group">
-        <div class="video-placeholder">
-          <iframe
-            src="https://www.youtube.com/embed/Kx6yNT7UE8U"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </div>
-
-        <div class="description-box">
-          This is a short placeholder description for the video. Replace this text with one or two sentences explaining the content of the video.
-        </div>
-
-        <div class="down-arrow" role="img" aria-label="scroll down"></div>
+      <!-- Title -->
+      <div class="video-title">
+        Consistent Characters in AI Image Generation
       </div>
 
-      <!-- Video block 2 (duplicate this entire block to add another section) -->
-      <div class="video-group">
-        <div class="video-placeholder">
-          <iframe
-            src="https://www.youtube.com/embed/Kx6yNT7UE8U"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </div>
-
-        <div class="description-box">
-          This is a second placeholder description. Duplicate this block and update the video and text to add more videos below.
-        </div>
-
-        <div class="down-arrow" role="img" aria-label="scroll down"></div>
+      <!-- Video -->
+      <div class="video-placeholder">
+        <iframe
+          src="https://www.youtube.com/embed/Kx6yNT7UE8U"
+          allowfullscreen>
+        </iframe>
       </div>
+
+      <!-- Description -->
+      <div class="description-box">
+        This is a short description explaining the purpose of this video.
+      </div>
+
+      <!-- Scroll arrow -->
+      <div class="down-arrow"></div>
+
     </div>
-  </body>
+
+    <!-- =========================================
+         VIDEO BLOCK END
+    ========================================== -->
+
+
+    <!-- Example second block (you can duplicate above instead) -->
+
+    <div class="video-group">
+
+      <div class="video-title">
+        Another Example Project
+      </div>
+
+      <div class="video-placeholder">
+        <iframe
+          src="https://www.youtube.com/embed/Kx6yNT7UE8U"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="description-box">
+        This is a second placeholder description.
+      </div>
+
+      <div class="down-arrow"></div>
+
+    </div>
+
+  </div>
+
+  <script>
+document.querySelectorAll(".down-arrow").forEach((arrow) => {
+  arrow.addEventListener("click", () => {
+    const block = arrow.closest(".video-group");
+    const nextBlock = block.nextElementSibling;
+
+    if (!nextBlock) return;
+
+    // Find the title inside the next block
+    const title = nextBlock.querySelector(".video-title");
+
+    const rect = title.getBoundingClientRect();
+    const scrollTop = window.pageYOffset + rect.top;
+
+    // Offset from top (adjust this number to taste)
+    const offset = 40;
+
+    window.scrollTo({
+      top: scrollTop - offset,
+      behavior: "smooth"
+    });
+  });
+});
+  </script>
+
+</body>
 </html>
