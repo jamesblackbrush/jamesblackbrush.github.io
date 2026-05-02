@@ -2441,8 +2441,8 @@ body.is-touch .main {
   justify-content: center;
   color: #ffffff;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 400;
+
   text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
