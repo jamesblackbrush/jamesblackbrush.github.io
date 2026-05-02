@@ -1,221 +1,227 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video</title>
 
-  <!-- Modern font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
 
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
+      * {
+        box-sizing: border-box;
+      }
 
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, sans-serif;
-      background: linear-gradient(to bottom, #08023b 0%, #42027e 100%);
-      min-height: 100vh;
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: linear-gradient(to bottom, #08023b 0%, #42027e 100%);
+        color: #fff;
+        min-height: 100vh;
+        position: relative;
+      }
 
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
+      .side-label {
+        position: fixed;
+        left: 32px;
+        top: 50%;
+        transform: translateY(-50%) rotate(180deg);
+        writing-mode: vertical-rl;
+        text-transform: uppercase;
+        font-size: clamp(5rem, 11vw, 10rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        line-height: 0.85;
+        color: rgba(255, 255, 255, 0.13);
+        user-select: none;
+        pointer-events: none;
+        z-index: 0;
+      }
 
-    .page-body {
-      width: 100%;
-      max-width: 1200px;
+      .mobile-title {
+        display: none;
+        margin: 0;
+        color: #ffffff;
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+        font-weight: 350;
+        text-align: center;
+        letter-spacing: 0.04em;
+        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      }
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 120px;
-
-      padding: 80px 0;
-    }
-
-    /* ===============================
-       VIDEO GROUP (ONE BLOCK)
-    =============================== */
-
-    .video-group {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
-
-    /* Title above video */
-.video-title {
-  width: 66vw;
-  max-width: 1200px;
-
-  color: #ffffff;
-  font-size: clamp(1.8rem, 3vw, 2.4rem); /* larger, responsive */
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: 0.03em;
-
-  /* subtle depth */
-  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-
-  margin-bottom: 10px;
-}
-
-    /* Video container */
-    .video-placeholder {
-      width: 66vw;
-      max-width: 1200px;
-      aspect-ratio: 16 / 9;
-    }
-
-    .video-placeholder iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    /* Description */
-    .description-box {
-      width: 66vw;
-      max-width: 1200px;
-
-      padding: 18px 20px;
-      border: 1px solid rgba(173, 216, 230, 0.9);
-      background: rgba(255, 255, 255, 0.06);
-      color: #e8f2ff;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Arrow */
-    .down-arrow {
-      width: 40px;
-      height: 40px;
-      border-right: 3px solid #a8c8ff;
-      border-bottom: 3px solid #a8c8ff;
-      transform: rotate(45deg);
-      cursor: pointer;
-      margin-top: 10px;
-
-      transition: transform 0.2s ease, opacity 0.2s ease;
-      opacity: 0.6;
-    }
-
-    .down-arrow:hover {
-      transform: rotate(45deg) translateY(4px);
-      opacity: 1;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .video-placeholder,
-      .description-box,
-      .video-title {
-        width: 90vw;
+      .main-content {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
       }
 
       .page-body {
-        gap: 80px;
-        padding: 60px 0;
+        width: 100%;
+        max-width: 1100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
-    }
-  </style>
-</head>
 
-<body>
+      .video-group {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        padding: 32px 24px;
+      }
 
-  <div class="page-body">
+      .video-placeholder {
+        width: min(66vw, 1000px);
+        aspect-ratio: 16 / 9;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow:
+          0 0 18px rgba(190, 220, 255, 0.2),
+          0 0 38px rgba(168, 200, 255, 0.16),
+          0 18px 40px rgba(0, 0, 0, 0.35);
+      }
 
-    <!-- =========================================
-         VIDEO BLOCK START
-         Copy everything between START and END
-         to add a new video section
-    ========================================== -->
+      .video-placeholder iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
 
-    <div class="video-group">
+      .down-arrow {
+        width: 40px;
+        height: 40px;
+        border-right: 3px solid #a8c8ff;
+        border-bottom: 3px solid #a8c8ff;
+        transform: rotate(45deg);
+        cursor: pointer;
+        margin-top: 6px;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+        opacity: 0.6;
+      }
 
-      <!-- Title -->
-      <div class="video-title">
-        Consistent Characters in AI Image Generation
+      .down-arrow:hover {
+        transform: rotate(45deg) translateY(4px);
+        opacity: 1;
+      }
+
+      .video-group:last-child .down-arrow {
+        opacity: 0.25;
+      }
+
+      @media (max-width: 768px) {
+        .side-label {
+          display: none;
+        }
+
+        .mobile-title {
+          display: block;
+          width: 90vw;
+          padding-top: 28px;
+        }
+
+        .page-body {
+          gap: 80px;
+          padding-bottom: 60px;
+        }
+
+        .video-group {
+          min-height: auto;
+          padding: 0;
+          gap: 28px;
+        }
+
+        .video-placeholder {
+          width: 90vw;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="side-label">VIDEO</div>
+
+    <main class="main-content">
+      <div class="page-body">
+        <h1 class="mobile-title">Video</h1>
+
+        <div class="video-group">
+          <div class="video-placeholder">
+            <iframe
+              src="https://www.youtube.com/embed/Kx6yNT7UE8U"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="down-arrow"></div>
+        </div>
+
+        <div class="video-group">
+          <div class="video-placeholder">
+            <iframe
+              src="https://www.youtube.com/embed/Kx6yNT7UE8U"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="down-arrow"></div>
+        </div>
+
+        <div class="video-group">
+          <div class="video-placeholder">
+            <iframe
+              src="https://www.youtube.com/embed/Kx6yNT7UE8U"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="home-link">
+            <a href="index.html">
+              <img
+                src="images\fulls\back-arrow.png"
+                alt="Home"
+                style="width: 100px; height: 100px"
+              />
+            </a>
+          </div>
+          <!--<div class="down-arrow"></div>-->
+        </div>
       </div>
+    </main>
 
-      <!-- Video -->
-      <div class="video-placeholder">
-        <iframe
-          src="https://www.youtube.com/embed/Kx6yNT7UE8U"
-          allowfullscreen>
-        </iframe>
-      </div>
+    <script>
+      document.querySelectorAll(".down-arrow").forEach((arrow) => {
+        arrow.addEventListener("click", () => {
+          const block = arrow.closest(".video-group");
+          const nextBlock = block.nextElementSibling;
 
-      <!-- Description -->
-      <div class="description-box">
-        This is a short description explaining the purpose of this video.
-      </div>
+          if (!nextBlock || !nextBlock.classList.contains("video-group"))
+            return;
 
-      <!-- Scroll arrow -->
-      <div class="down-arrow"></div>
+          const target = nextBlock.querySelector(".video-placeholder");
+          if (!target) return;
 
-    </div>
+          const rect = target.getBoundingClientRect();
+          const targetTop =
+            window.pageYOffset +
+            rect.top -
+            (window.innerHeight - rect.height) / 2;
 
-    <!-- =========================================
-         VIDEO BLOCK END
-    ========================================== -->
-
-
-    <!-- Example second block (you can duplicate above instead) -->
-
-    <div class="video-group">
-
-      <div class="video-title">
-        Another Example Project
-      </div>
-
-      <div class="video-placeholder">
-        <iframe
-          src="https://www.youtube.com/embed/Kx6yNT7UE8U"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div class="description-box">
-        This is a second placeholder description.
-      </div>
-
-      <div class="down-arrow"></div>
-
-    </div>
-
-  </div>
-
-  <script>
-document.querySelectorAll(".down-arrow").forEach((arrow) => {
-  arrow.addEventListener("click", () => {
-    const block = arrow.closest(".video-group");
-    const nextBlock = block.nextElementSibling;
-
-    if (!nextBlock) return;
-
-    // Find the title inside the next block
-    const title = nextBlock.querySelector(".video-title");
-
-    const rect = title.getBoundingClientRect();
-    const scrollTop = window.pageYOffset + rect.top;
-
-    // Offset from top (adjust this number to taste)
-    const offset = 40;
-
-    window.scrollTo({
-      top: scrollTop - offset,
-      behavior: "smooth"
-    });
-  });
-});
-  </script>
-
-</body>
+          window.scrollTo({
+            top: targetTop,
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
