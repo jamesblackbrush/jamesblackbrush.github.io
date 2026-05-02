@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI</title>
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: linear-gradient(to bottom, #08023b 0%, #42027e 100%);
+        color: white;
+      }
+
+      body {
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .side-label {
+        position: fixed;
+        left: 32px;
+        top: 50%;
+        transform: translateY(-50%) rotate(180deg);
+        writing-mode: vertical-rl;
+        text-transform: uppercase;
+        font-size: clamp(5rem, 11vw, 10rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        line-height: 0.85;
+        color: rgba(255, 255, 255, 0.13);
+        user-select: none;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+      }
+
+      .section {
+        min-height: 100vh;
+        width: 100%;
+        padding: 36px 24px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .video-placeholder {
+        width: min(66vw, 1000px);
+        aspect-ratio: 16 / 9;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow:
+          0 0 18px rgba(190, 220, 255, 0.2),
+          0 0 38px rgba(168, 200, 255, 0.16),
+          0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .video-placeholder iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      .grid-wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .grid {
+        width: min(76vw, 860px);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.65rem;
+      }
+
+      .grid img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow:
+          0 0 18px rgba(255, 255, 255, 0.18),
+          0 0 40px rgba(255, 255, 255, 0.12),
+          0 10px 28px rgba(255, 255, 255, 0.1);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .grid img:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 14px rgba(255, 255, 255, 0.12),
+          0 0 32px rgba(255, 255, 255, 0.08),
+          0 10px 24px rgba(255, 255, 255, 0.08);
+      }
+
+      .down-arrow {
+        width: 40px;
+        height: 40px;
+        border-right: 3px solid #a8c8ff;
+        border-bottom: 3px solid #a8c8ff;
+        transform: rotate(45deg);
+        cursor: pointer;
+        margin-top: 8px;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+        opacity: 0.6;
+      }
+
+      .down-arrow:hover {
+        transform: rotate(45deg) translateY(4px);
+        opacity: 1;
+      }
+
+      .section:last-child .down-arrow {
+        display: none;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 1000;
+        padding: 2rem;
+      }
+
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .lightbox-panel {
+        position: relative;
+        /* Edit these two values if you want the lightbox to open larger or smaller */
+        width: min(90vw, 1100px);
+        height: min(85vh, 800px);
+        background: rgba(20, 20, 30, 0.95);
+        border-radius: 14px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+
+      .lightbox-panel img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 1rem;
+        background: none;
+        border: 0;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      .close-btn:hover {
+        opacity: 1;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          width: min(88vw, 760px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .side-label {
+          display: none;
+        }
+
+        .section {
+          min-height: 100vh;
+          padding: 32px 0 48px;
+          gap: 20px;
+        }
+
+        .video-placeholder {
+          width: 90vw;
+        }
+
+        .grid {
+          width: 90vw;
+          grid-template-columns: 1fr;
+        }
+
+        .grid img {
+          aspect-ratio: auto;
+          cursor: default;
+        }
+      }
+
+      @media (hover: none) {
+        .grid img:hover {
+          transform: none;
+          box-shadow:
+            0 0 18px rgba(255, 255, 255, 0.18),
+            0 0 40px rgba(255, 255, 255, 0.12),
+            0 10px 28px rgba(255, 255, 255, 0.1);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="side-label">AI</div>
+
+    <main class="page">
+      <section class="section">
+        <div class="video-placeholder">
+          <iframe
+            src="https://www.youtube.com/embed/FR-7YzB2eMs"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="down-arrow"></div>
+      </section>
+
+      <section class="section">
+        <div class="grid-wrap">
+          <div class="grid">
+            <img src="images/fulls/ai/ai_bird.jpg" alt="" />
+            <img src="images/fulls/ai/ai_car.jpg" alt="" />
+            <img src="images/fulls/ai/ai_cartoon_scenery.jpg" alt="" />
+            <img src="images/fulls/ai/ai_web.jpg" alt="" />
+            <img src="images/fulls/ai/restored.jpg" alt="" />
+            <img src="images/fulls/ai/ai_frog.jpg" alt="" />
+            <img src="images/fulls/ai/ai_woman.jpg" alt="" />
+            <img src="images/fulls/ai/ai_fox.jpg" alt="" />
+            <img src="images/fulls/ai/ai_ship.jpg" alt="" />
+          </div>
+        </div>
+        <div class="home-link">
+          <a href="index.html">
+            <img
+              src="images\fulls\back-arrow.png"
+              alt="Home"
+              style="width: 100px; height: 100px"
+            />
+          </a>
+        </div>
+        <div class="down-arrow"></div>
+      </section>
+      <!-- Uncomment to add more images
+      <section class="section">
+        <div class="grid-wrap">
+          <div class="grid">
+            <img src="images/fulls/image/mona-lisa-768.jpg" alt="" />
+            <img src="images/fulls/image/puzzle.jpg" alt="" />
+            <img src="images/fulls/image/birthday-card.jpg" alt="" />
+            <img src="images/fulls/image/icon-examples.png" alt="" />
+            <img src="images/fulls/image/tiger_thumb2.jpg" alt="" />
+            <img src="images/fulls/image/cartoon-768.jpg" alt="" />
+            <img src="images/fulls/image/mona_thumb.jpg" alt="" />
+            <img src="images/fulls/image/dispersion.jpg" alt="" />
+            <img src="images/fulls/image/fish0.jpg" alt="" />
+          </div>
+        </div>
+        
+        <div class="down-arrow"></div>
+        <div class="home-link">
+          <a href="index.html">
+            <img
+              src="images\fulls\back-arrow.png"
+              alt="Home"
+              style="width: 100px; height: 100px"
+            />
+          </a>
+        </div>
+      </section>-->
+    </main>
+
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-panel">
+        <button class="close-btn" id="closeBtn" aria-label="Close lightbox">
+          ×
+        </button>
+        <img src="" id="lightboxImg" alt="" />
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".down-arrow").forEach((arrow) => {
+        arrow.addEventListener("click", () => {
+          const section = arrow.closest(".section");
+          const nextSection = section.nextElementSibling;
+
+          if (!nextSection) return;
+
+          const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+          let targetY;
+
+          if (isMobile) {
+            // MOBILE: scroll to top of next section
+            const rect = nextSection.getBoundingClientRect();
+            targetY = window.pageYOffset + rect.top;
+          } else {
+            // DESKTOP: scroll to centre (your existing behaviour)
+            const target =
+              nextSection.querySelector(".video-placeholder") ||
+              nextSection.querySelector(".grid");
+
+            const rect = target.getBoundingClientRect();
+            targetY =
+              window.pageYOffset +
+              rect.top -
+              window.innerHeight / 2 +
+              rect.height / 2;
+          }
+
+          window.scrollTo({
+            top: targetY,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      const images = document.querySelectorAll(".grid img");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const closeBtn = document.getElementById("closeBtn");
+      const mobileBreakpoint = window.matchMedia("(max-width: 768px)");
+
+      let currentIndex = 0;
+      let currentGalleryImages = [];
+
+      function openLightbox(index, galleryImages) {
+        if (mobileBreakpoint.matches) return;
+        currentGalleryImages = galleryImages;
+        currentIndex = index;
+        lightboxImg.src = currentGalleryImages[currentIndex].src;
+        lightbox.classList.add("active");
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("active");
+      }
+
+      function showNextImage() {
+        currentIndex = (currentIndex + 1) % currentGalleryImages.length;
+        lightboxImg.src = currentGalleryImages[currentIndex].src;
+      }
+
+      function showPrevImage() {
+        currentIndex =
+          (currentIndex - 1 + currentGalleryImages.length) %
+          currentGalleryImages.length;
+        lightboxImg.src = currentGalleryImages[currentIndex].src;
+      }
+
+      document.querySelectorAll(".grid").forEach((grid) => {
+        const galleryImages = Array.from(grid.querySelectorAll("img"));
+
+        galleryImages.forEach((img, index) => {
+          img.addEventListener("click", () => {
+            openLightbox(index, galleryImages);
+          });
+        });
+      });
+
+      closeBtn.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      lightboxImg.addEventListener("click", () => {
+        if (!lightbox.classList.contains("active")) return;
+        showNextImage();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("active")) return;
+
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") showNextImage();
+        if (e.key === "ArrowLeft") showPrevImage();
+      });
+    </script>
+  </body>
+</html>
