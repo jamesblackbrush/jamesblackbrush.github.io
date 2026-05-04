@@ -13,6 +13,31 @@
       ><link rel="stylesheet" href="assets/css/noscript.css"
     /></noscript>
     <link rel="icon" type="image/png" href="images/favicon.png" />
+
+    <style>
+      /* Homepage panel hover feedback */
+      #gallery-main .gallery-trigger {
+        overflow: hidden;
+      }
+
+      #gallery-main .gallery-trigger img,
+      #gallery-main .gallery-trigger .panel-text {
+        transition:
+          transform 0.25s ease,
+          filter 0.25s ease,
+          opacity 0.25s ease;
+      }
+
+      @media (hover: hover) {
+        #gallery-main .gallery-trigger:hover img {
+          filter: brightness(1.18);
+        }
+
+        #gallery-main .gallery-trigger:hover .panel-text {
+          transform: scale(1.08);
+        }
+      }
+    </style>
   </head>
   <body class="is-preload">
     <!-- Header removed -->
@@ -200,5 +225,68 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+      /*
+        Lightbox behaviour tweak:
+        - The existing gallery/lightbox still opens and advances as before.
+        - Once the user has clicked through the lightbox images, the next click
+          sends them to that panel's content page instead of cycling back.
+      */
+      (function () {
+        let activeGalleryId = null;
+        let lightboxImageClicks = 0;
+
+        const triggers = document.querySelectorAll(".gallery-trigger");
+
+        triggers.forEach((trigger) => {
+          trigger.addEventListener("click", () => {
+            activeGalleryId = trigger.dataset.gallery;
+            lightboxImageClicks = 0;
+          });
+        });
+
+        document.addEventListener(
+          "click",
+          (event) => {
+            if (!activeGalleryId) return;
+
+            const popup = event.target.closest(".poptrox-popup");
+            if (!popup) return;
+
+            if (event.target.closest(".closer, .nav-previous, .nav-next"))
+              return;
+
+            const clickedImage = event.target.closest("img");
+            if (!clickedImage) return;
+
+            const gallery = document.getElementById(
+              "gallery-" + activeGalleryId,
+            );
+            if (!gallery) return;
+
+            const galleryImages = gallery.querySelectorAll("article a");
+            const targetUrl = gallery.dataset.linkHref;
+
+            lightboxImageClicks += 1;
+
+            if (targetUrl && lightboxImageClicks >= galleryImages.length) {
+              event.preventDefault();
+              event.stopPropagation();
+              event.stopImmediatePropagation();
+              window.location.href = targetUrl;
+            }
+          },
+          true,
+        );
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            activeGalleryId = null;
+            lightboxImageClicks = 0;
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

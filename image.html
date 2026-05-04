@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Gallery</title>
-
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
       * {
         box-sizing: border-box;
@@ -37,12 +37,12 @@
         top: 50%;
         transform: translateY(-50%) rotate(180deg);
         writing-mode: vertical-rl;
-        text-transform: uppercase;
+        text-transform: lowercase;
         font-size: clamp(5rem, 11vw, 10rem);
-        font-weight: 700;
+        font-weight: 400;
         letter-spacing: 0.08em;
         line-height: 0.85;
-        color: rgba(255, 255, 255, 0.13);
+        color: rgba(255, 255, 255, 0.23);
         user-select: none;
         pointer-events: none;
         z-index: 0;
@@ -50,9 +50,9 @@
 
       .page {
         width: min(96vw, 1200px);
-        height: min(96vh, 1100px);
-        display: flex;
-        flex-direction: column;
+        height: 100vh;
+        display: grid;
+        grid-template-rows: 1fr auto;
         padding: 1rem;
         margin: 0 auto;
         position: relative;
@@ -60,7 +60,6 @@
       }
 
       .grid-wrap {
-        flex: 1;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -69,7 +68,8 @@
       }
 
       .grid {
-        width: min(76vw, 860px);
+        /* Keeps the full 3x3 grid inside the viewport with room for the back button */
+        width: min(76vw, 860px, calc((100vh - 150px) * 0.95));
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.65rem;
@@ -104,8 +104,13 @@
       .home-link {
         width: 100%;
         text-align: center;
-        margin-top: 1.25rem;
         padding-bottom: 0.5rem;
+      }
+
+      .home-link img {
+        width: clamp(56px, 8vh, 100px);
+        height: clamp(56px, 8vh, 100px);
+        display: inline-block;
       }
 
       .home-link a {
@@ -179,12 +184,10 @@
       @media (max-width: 900px) {
         .page {
           width: min(96vw, 980px);
-          height: auto;
-          min-height: 96vh;
         }
 
         .grid {
-          width: min(88vw, 760px);
+          width: min(88vw, 760px, calc((100vh - 140px) * 0.95));
         }
       }
 
@@ -201,6 +204,9 @@
         .page {
           width: 100vw;
           height: auto;
+          min-height: auto;
+          display: flex;
+          flex-direction: column;
           padding: 1rem;
         }
 
@@ -211,6 +217,10 @@
         .grid {
           width: 100%;
           grid-template-columns: 1fr;
+        }
+
+        .home-link {
+          margin-top: 1rem;
         }
 
         .grid img {
@@ -232,7 +242,7 @@
   </head>
 
   <body>
-    <div class="side-label">IMAGES</div>
+    <div class="side-label">images</div>
 
     <main class="page">
       <div class="grid-wrap">

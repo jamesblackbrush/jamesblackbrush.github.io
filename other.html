@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Image Background</title>
-
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
       * {
         box-sizing: border-box;
@@ -18,7 +18,15 @@
         font-family: system-ui, sans-serif;
       }
 
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       .image-grid {
+        width: min(100vw, 100vh);
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 0;
@@ -41,18 +49,6 @@
         }
       }
 
-      @media (min-width: 1200px) {
-        .image-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-
-      /* Default (fallback) */
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      }
-
       /* Exactly 4 items → 2x2 */
       .image-grid:has(> img:nth-child(4):last-child) {
         grid-template-columns: repeat(2, 1fr);
@@ -61,6 +57,16 @@
       /* Exactly 9 items → 3x3 */
       .image-grid:has(> img:nth-child(9):last-child) {
         grid-template-columns: repeat(3, 1fr);
+      }
+
+      /* Larger sets keep at least 4 across on desktop */
+      @media (min-width: 1200px) {
+        .image-grid:not(:has(> img:nth-child(4):last-child)):not(
+            :has(> img:nth-child(9):last-child)
+          ) {
+          width: 100vw;
+          grid-template-columns: repeat(4, 1fr);
+        }
       }
 
       .lightbox {
@@ -128,9 +134,75 @@
         background: #333;
       }
 
+      .floating-back-btn {
+        position: fixed;
+        left: 24px;
+        bottom: 24px;
+        width: 72px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(150, 241, 114, 0.8);
+        box-shadow:
+          0 0 18px rgba(255, 255, 255, 0.18),
+          0 10px 28px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(6px);
+        cursor: pointer;
+        z-index: 900;
+        animation: backPulse 2.2s ease-in-out infinite;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .floating-back-btn:hover {
+        transform: scale(1.08);
+        background: rgba(150, 241, 114);
+      }
+
+      .floating-back-btn img {
+        width: 48px;
+        height: 48px;
+        display: block;
+      }
+
+      @keyframes backPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.78;
+        }
+
+        50% {
+          transform: scale(1.06);
+          opacity: 1;
+        }
+      }
+
       @media (max-width: 600px) {
-        .image-grid {
-          grid-template-columns: repeat(2, 1fr);
+        body {
+          display: block;
+        }
+
+        .image-grid,
+        .image-grid:has(> img:nth-child(4):last-child),
+        .image-grid:has(> img:nth-child(9):last-child) {
+          width: 100%;
+          grid-template-columns: 1fr;
+        }
+
+        .floating-back-btn {
+          width: 58px;
+          height: 58px;
+          left: 16px;
+          bottom: 16px;
+        }
+
+        .floating-back-btn img {
+          width: 38px;
+          height: 38px;
         }
       }
     </style>
@@ -138,7 +210,11 @@
 
   <body>
     <div class="image-grid">
-      <img src="images/fulls/other/mars-preview.jpg" data-type="image" />
+      <img
+        src="images/fulls/other/mars-preview.jpg"
+        data-type="image"
+        data-full-src="images/fulls/other/mars-full.png"
+      />
 
       <img
         src="images/fulls/other/elearning-thumbnail.png"
@@ -146,7 +222,11 @@
         data-video-url="https://www.youtube.com/embed/K8cq27UeGWc"
       />
 
-      <img src="images/fulls/other/copy-example.png" data-type="image" />
+      <img
+        src="images/fulls/other/takeAwayMenu.jpg"
+        data-type="image"
+        data-full-src="images/fulls/other/menu-full.png"
+      />
 
       <img
         src="images/fulls/other/html-video.png"
@@ -201,6 +281,10 @@
       />
     --></div>
 
+    <button class="floating-back-btn" id="floatingBackBtn" aria-label="Go back">
+      <img src="images/fulls/back-arrow.png" alt="" />
+    </button>
+
     <div class="lightbox" id="lightbox">
       <div class="lightbox-panel image-mode" id="lightboxPanel">
         <button class="close-btn" id="closeBtn">×</button>
@@ -224,6 +308,7 @@
       const lightboxImg = document.getElementById("lightboxImg");
       const lightboxVideo = document.getElementById("lightboxVideo");
       const closeBtn = document.getElementById("closeBtn");
+      const floatingBackBtn = document.getElementById("floatingBackBtn");
 
       tiles.forEach((tile) => {
         tile.addEventListener("click", () => {
@@ -246,7 +331,10 @@
             lightboxVideo.src = "";
 
             lightboxImg.style.display = "block";
-            lightboxImg.src = tile.src;
+            // For image tiles, src is the visible thumbnail/tile.
+            // data-full-src is the different image that opens in the lightbox.
+            // If data-full-src is omitted, it falls back to the tile image.
+            lightboxImg.src = tile.dataset.fullSrc || tile.src;
           }
 
           lightbox.classList.add("active");
@@ -258,6 +346,14 @@
         lightboxImg.src = "";
         lightboxVideo.src = "";
       }
+
+      floatingBackBtn.addEventListener("click", () => {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      });
 
       closeBtn.addEventListener("click", closeLightbox);
 

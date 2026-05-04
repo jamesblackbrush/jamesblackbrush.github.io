@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video</title>
-
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
       html {
         scroll-behavior: smooth;
@@ -29,12 +29,12 @@
         top: 50%;
         transform: translateY(-50%) rotate(180deg);
         writing-mode: vertical-rl;
-        text-transform: uppercase;
+        text-transform: lowercase;
         font-size: clamp(5rem, 11vw, 10rem);
-        font-weight: 700;
+        font-weight: 400;
         letter-spacing: 0.08em;
         line-height: 0.85;
-        color: rgba(255, 255, 255, 0.13);
+        color: rgba(255, 255, 255, 0.23);
         user-select: none;
         pointer-events: none;
         z-index: 0;
@@ -184,15 +184,7 @@
               allowfullscreen
             ></iframe>
           </div>
-          <div class="home-link">
-            <a href="index.html">
-              <img
-                src="images\fulls\back-arrow.png"
-                alt="Home"
-                style="width: 100px; height: 100px"
-              />
-            </a>
-          </div>
+          <div class="down-arrow"></div>
           <!--<div class="down-arrow"></div>-->
         </div>
         <div class="video-group">
